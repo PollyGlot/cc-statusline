@@ -8,12 +8,11 @@ A custom statusline script for Claude Code on macOS that displays useful session
 
 ## What It Displays
 
-- **Repository name** - Current project directory name
+- **Repository name** - Current project directory name with git branch: `project(branch)`
 - **Model** - Active Claude model (e.g., "Opus")
 - **Context window** - Visual progress bar with percentage
 - **Session tokens** - Total tokens used this session (formatted as K/M)
 - **API usage** - 5-hour and 7-day utilization (color-coded: green <60%, yellow 60-89%, red ≥90%)
-- **Git branch** - Current branch name
 
 ## Requirements
 
@@ -29,7 +28,7 @@ Copy and paste this prompt into Claude Code:
 
 ```
 Use the statusline-setup agent to download and install this script:
-https://raw.githubusercontent.com/robinebers/claude-code-statusline/main/statusline-command.sh
+https://raw.githubusercontent.com/PollyGlot/cc-statusline/main/statusline-command.sh
 ```
 
 ### Manual Install
@@ -38,7 +37,7 @@ https://raw.githubusercontent.com/robinebers/claude-code-statusline/main/statusl
 
 ```bash
 mkdir -p ~/.claude
-curl -o ~/.claude/statusline-command.sh https://raw.githubusercontent.com/robinebers/claude-code-statusline/main/statusline-command.sh
+curl -o ~/.claude/statusline-command.sh https://raw.githubusercontent.com/PollyGlot/cc-statusline/main/statusline-command.sh
 chmod +x ~/.claude/statusline-command.sh
 ```
 

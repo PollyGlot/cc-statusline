@@ -105,13 +105,13 @@ seven_day_display=$(color_pct "$seven_day_pct")
 opus_display=$(color_pct "$opus_pct")
 
 # Output status line with clear labels
-# Format: repo | model | Context [bar] % | Tokens: N | Limits: 5hr% 7day% Opus% | (branch)
-printf "\033[33m%s\033[0m | %s | Context %b | Tokens: \033[36m%s\033[0m | Limits: 5hr %b · 7day %b · Opus %b | (\033[32m%s\033[0m)" \
+# Format: repo(branch) | model | Context [bar] % | Tokens: N | Limits: 5hr% 7day% Opus%
+printf "\033[33m%s\033[0m(\033[32m%s\033[0m) | %s | Context %b | Tokens: \033[36m%s\033[0m | Limits: 5hr %b · 7day %b · Opus %b" \
   "$repo_name" \
+  "$branch" \
   "$model" \
   "$context_display" \
   "$session_display" \
   "$five_hour_display" \
   "$seven_day_display" \
-  "$opus_display" \
-  "$branch"
+  "$opus_display"
