@@ -3,6 +3,9 @@
 # Read JSON input from stdin
 input=$(cat)
 
+# DEBUG: Save input for inspection
+echo "$input" > /tmp/claude-code-input.json
+
 # Extract basic info
 project_dir=$(echo "$input" | jq -r '.workspace.project_dir')
 repo_name=$(basename "$project_dir")
