@@ -32,4 +32,40 @@ Configure in Claude Code settings:
 
 ## How it works
 
-The script receives JSON on stdin from Claude Code containing workspace and context window info. It also fetches API usage from Anthropic's OAuth endpoint using credentials stored in macOS Keychain, with a 60-second cache at `/tmp/claude-usage-cache.json`.
+The script receives JSON on stdin from Claude Code containing workspace and context window info. It also fetches API usage from Anthropic's API endpoint with a 60-second cache at `/tmp/claude-usage-cache.json`.
+
+### API Authentication
+
+The script supports three methods to authenticate with Anthropic's API (in priority order):
+
+1. **Environment Variable - `CLAUDE_CODE_OAUTH_TOKEN`** (recommended)
+   ```bash
+   export CLAUDE_CODE_OAUTH_TOKEN="your-oauth-token"
+   ```
+
+2. **Environment Variable - `ANTHROPIC_API_KEY`** (alternative)
+   ```bash
+   export ANTHROPIC_API_KEY="sk-ant-..."
+   ```
+
+3. **macOS Keychain** (fallback) - OAuth token stored by Claude Code in Keychain entry `Claude Code-credentials`
+
+The script tries each method in order and uses the first one that's available.
+
+## Testing with Environment Variable
+
+To test the API integration with your OAuth token (already set in your `.zshrc`):
+
+```bash
+# Your token is already configured in zsh, so just run:
+echo '{"workspace":{"project_dir":"/Users/pollyglot/dev/cc-statusline"},"model":{"display_name":"Claude Haiku 4.5"},"context_window":{"current_usage":{"input_tokens":100,"cache_creation_input_tokens":0,"cache_read_input_tokens":0},"context_window_size":200000,"total_input_tokens":1500,"total_output_tokens":500}}' | /Users/pollyglot/dev/cc-statusline/statusline-command.sh
+```
+
+Or test with a fresh shell environment:
+
+```bash
+export CLAUDE_CODE_OAUTH_TOKEN="your-token-here"
+/Users/pollyglot/dev/cc-statusline/statusline-command.sh < input.json
+```
+
+The script will cache the API response in `/tmp/claude-usage-cache.json` for 60 seconds to avoid excessive API calls.

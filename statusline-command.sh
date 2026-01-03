@@ -16,8 +16,18 @@ CACHE_FILE="/tmp/claude-usage-cache.json"
 CACHE_MAX_AGE=60
 
 fetch_usage() {
-  # Get OAuth token from Keychain
-  token=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null | jq -r '.claudeAiOauth.accessToken // empty' 2>/dev/null)
+  # Try environment variables first, then fall back to Keychain
+  token="${CLAUDE_CODE_OAUTH_TOKEN:-}"
+
+  if [ -z "$token" ]; then
+    token="${ANTHROPIC_API_KEY:-}"
+  fi
+
+  if [ -z "$token" ]; then
+    # Get OAuth token from Keychain
+    token=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null | jq -r '.claudeAiOauth.accessToken // empty' 2>/dev/null)
+  fi
+
   if [ -n "$token" ]; then
     curl -s \
       -H "Authorization: Bearer $token" \
